@@ -1,8 +1,9 @@
 {
   "name": "private-thailand-address",
   "version": "1.0.0",
-  "description": "Private Thailand Address",
+  "description": "Private Thailand Address. Required node version 16 or later.",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -15,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/natthanun1999/thailand-address/issues"
   },
-  "homepage": "https://github.com/natthanun1999/thailand-address#readme"
+  "homepage": "https://github.com/natthanun1999/thailand-address#readme",
+  "dependencies": {
+    "leven": "^4.0.0"
+  }
 }

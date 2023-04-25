@@ -1,77 +1,152 @@
-const data = require("./data.json");
-const codes = data.map((item) => item.zipCode);
+import leven from 'leven'
+import data from './data.json' assert { type: 'json' }
 
-function getDataForZipCode(zipCode) {
-  const zip = String(zipCode);
-  return zip && zip.length === 5 && codes.includes(zip)
-    ? data.find((item) => item.zipCode === zip)
-    : null;
+function toAddress(rawData) {
+  const remapped = []
+
+  for (const item of rawData) {
+    for (const province of (item?.provinceList || [])) {
+      const districtList = item?.districtList?.filter((dl) => dl.proviceId === province.provinceId) || []
+
+      for (const district of districtList) {
+        const subDistrictList = item?.subDistrictList?.filter((sdl) => sdl.provinceId === district.proviceId && sdl.districtId === district.districtId) || []
+
+        for (const subDistrict of subDistrictList) {
+          remapped.push({
+            zipCode: item.zipCode,
+            subDistrict: subDistrict.subDistrictName,
+            district: district.districtName,
+            province: province.provinceName
+          })
+        }
+      }
+    }
+  }
+  return remapped
 }
 
-function getSubDistrictNames(zipCode) {
-  const dataForZipCode = getDataForZipCode(zipCode);
-  return dataForZipCode
-    ? dataForZipCode.subDistrictList.map((item) => item.subDistrictName)
-    : [];
-}
-
-function getDistrictNames(zipCode) {
-  const dataForZipCode = getDataForZipCode(zipCode);
-  return dataForZipCode
-    ? dataForZipCode.districtList.map((item) => item.districtName)
-    : [];
-}
-
-function getProvinceName(zipCode) {
-  const dataForZipCode = getDataForZipCode(zipCode);
-  return dataForZipCode ? dataForZipCode.provinceList[0].provinceName : null;
-}
-
-function getAutoSuggestion(zipCode, subDistrict) {
-  const zip = String(zipCode);
-  if (!zip || zip.length !== 5 || !codes.includes(zip)) {
-    return {
-      subDistrict: null,
-      districtName: null,
-      provinceName: null,
-      zipCode: null,
-    };
+function calculateSimilarity(query, addressData, target = null) {
+  if (target) {
+    const similarities = [leven(query, addressData[target])]
+  
+    return Math.min(...similarities)
   }
 
-  const dataForZipCode = getDataForZipCode(zipCode);
-  if (!subDistrict) {
-    return {
-      subDistrict: dataForZipCode.subDistrictList.map(
-        (item) => item.subDistrictName
-      ),
-      districtName: null,
-      provinceName: getProvinceName(zip),
-      zipCode: zip,
-    };
-  }
+  const { zipCode, subDistrict, district, province } = addressData
+	const similarities = [
+		leven(query, zipCode),
+		leven(query, subDistrict),
+		leven(query, district),
+		leven(query, province)
+	]
 
-  const { districtId } =
-    dataForZipCode.subDistrictList.find(
-      (item) => item.subDistrictName === subDistrict
-    ) || {};
-  const { districtName } =
-    dataForZipCode.districtList.find(
-      (item) => item.districtId === districtId
-    ) || {};
-
-  return {
-    subDistrict,
-    districtName,
-    provinceName: getProvinceName(dataForZipCode.zipCode),
-    zipCode: zip,
-  };
+	return Math.min(...similarities)
 }
 
-module.exports = {
-  getSubDistrictNames,
-  getDistrictNames,
-  getProvinceName,
+function getAutoSuggestion(search, limit = 10) {
+  const regex = new RegExp(search, 'i')
+  const results = []
+
+  data.forEach((item) => {
+    if (
+      regex.test(item.zipCode)
+      || item?.subDistrictList?.some((subDistrict) => regex.test(subDistrict.subDistrictName))
+      || item?.districtList?.some((district) => regex.test(district.districtName))
+      || item?.provinceList?.some((province) => regex.test(province.provinceName))
+    ) {
+      results.push(item)
+    }
+  })
+
+  const remapped = toAddress(results)
+  const cleaned = remapped.filter((r) => (
+      regex.test(r.zipCode)
+      || regex.test(r.subDistrict)
+      || regex.test(r.district)
+      || regex.test(r.province)
+    )).slice(0, limit)
+
+  cleaned.sort((a, b) => {
+		let aSimilarity = calculateSimilarity(search, a)
+		let bSimilarity = calculateSimilarity(search, b)
+
+		return aSimilarity - bSimilarity
+	})
+
+  return cleaned
+}
+
+function getSubDistricts(search, limit = 10) {
+  const regex = new RegExp(search, 'i')
+  const results = []
+
+  data.forEach((item) => {
+    if (item?.subDistrictList?.some((subDistrict) => regex.test(subDistrict.subDistrictName))) {
+      results.push(item)
+    }
+  })
+
+  const remapped = toAddress(results)
+  const cleaned = remapped.filter((r) => regex.test(r.subDistrict))
+
+  return [...new Set(cleaned.map((c) => c.subDistrict))].slice(0, limit)
+}
+
+function getDistricts(search, limit = 10) {
+  const regex = new RegExp(search, 'i')
+  const results = []
+
+  data.forEach((item) => {
+    if (item?.districtList?.some((district) => regex.test(district.districtName))) {
+      results.push(item)
+    }
+  })
+
+  const remapped = toAddress(results)
+  const cleaned = remapped.filter((r) => regex.test(r.district))
+
+  return [...new Set(cleaned.map((c) => c.district))].slice(0, limit)
+}
+
+function getProvinces(search, limit = 10) {
+  const regex = new RegExp(search, 'i')
+  const results = []
+
+  data.forEach((item) => {
+    if (item?.provinceList?.some((province) => regex.test(province.provinceName))) {
+      results.push(item)
+    }
+  })
+
+  const remapped = toAddress(results)
+  const cleaned = remapped.filter((r) => regex.test(r.province))
+
+  return [...new Set(cleaned.map((c) => c.province))].slice(0, limit)
+}
+
+function getZipCodes(search, limit = 10) {
+  const regex = new RegExp(search, 'i')
+  const results = []
+
+  data.forEach((item) => {
+    if (regex.test(item.zipCode)) {
+      results.push(item)
+    }
+  })
+
+  const remapped = toAddress(results)
+  const cleaned = remapped.filter((r) => regex.test(r.zipCode))
+
+  return [...new Set(cleaned.map((c) => c.zipCode))].slice(0, limit)
+}
+
+console.log('zip', getZipCodes('201'))
+
+export default {
   getAllData: () => data,
   getAutoSuggestion,
-  getDataForZipCode,
-};
+  getSubDistricts,
+  getDistricts,
+  getProvinces,
+  getZipCodes
+}
