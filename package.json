@@ -1,0 +1,19 @@
+{
+  "name": "private-thailand-address",
+  "version": "1.0.0",
+  "description": "Private Thailand Address",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/natthanun1999/thailand-address.git"
+  },
+  "author": "Vertex's",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/natthanun1999/thailand-address/issues"
+  },
+  "homepage": "https://github.com/natthanun1999/thailand-address#readme"
+}
