@@ -1,5 +1,7 @@
 import leven from 'leven'
-import data from './data.json' assert { type: 'json' }
+import { readFileSync } from 'fs'
+
+const data = JSON.parse(readFileSync('./data.json'))
 
 function toAddress(rawData) {
   const remapped = []
@@ -139,6 +141,8 @@ function getZipCodes(search, limit = 10) {
 
   return [...new Set(cleaned.map((c) => c.zipCode))].slice(0, limit)
 }
+
+console.log('zip', getZipCodes('20110'))
 
 export default {
   getAllData: () => data,
