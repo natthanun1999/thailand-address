@@ -77,11 +77,19 @@ function toAddress(rawData) {
   const remapped = []
 
   for (const item of rawData) {
-    for (const province of (item?.provinceList || [])) {
-      const districtList = item?.districtList?.filter((dl) => dl.proviceId === province.provinceId) || []
+    if (!('provinceList' in item) || !item.provinceList) {
+      continue
+    }
+
+    for (const province of (item.provinceList || [])) {
+      const districtList = (('districtList' in item) && item.districtList)
+        ? item.districtList.filter((dl) => dl.proviceId === province.provinceId)
+        : []
 
       for (const district of districtList) {
-        const subDistrictList = item?.subDistrictList?.filter((sdl) => sdl.provinceId === district.proviceId && sdl.districtId === district.districtId) || []
+        const subDistrictList = (('subDistrictList' in item) && item.subDistrictList)
+          ? item.subDistrictList.filter((sdl) => sdl.provinceId === district.proviceId && sdl.districtId === district.districtId)
+          : []
 
         for (const subDistrict of subDistrictList) {
           remapped.push({
@@ -122,9 +130,9 @@ function getAutoSuggestion(search, limit = 10) {
   data.forEach((item) => {
     if (
       regex.test(item.zipCode)
-      || item?.subDistrictList?.some((subDistrict) => regex.test(subDistrict.subDistrictName))
-      || item?.districtList?.some((district) => regex.test(district.districtName))
-      || item?.provinceList?.some((province) => regex.test(province.provinceName))
+      || (item.subDistrictList && item.subDistrictList.some((subDistrict) => regex.test(subDistrict.subDistrictName)))
+      || (item.districtList && item.districtList.some((district) => regex.test(district.districtName)))
+      || (item.provinceList && item.provinceList.some((province) => regex.test(province.provinceName)))
     ) {
       results.push(item)
     }
@@ -153,7 +161,7 @@ function getSubDistricts(search, limit = 10) {
   const results = []
 
   data.forEach((item) => {
-    if (item?.subDistrictList?.some((subDistrict) => regex.test(subDistrict.subDistrictName))) {
+    if (item.subDistrictList && item.subDistrictList.some((subDistrict) => regex.test(subDistrict.subDistrictName))) {
       results.push(item)
     }
   })
@@ -169,7 +177,7 @@ function getDistricts(search, limit = 10) {
   const results = []
 
   data.forEach((item) => {
-    if (item?.districtList?.some((district) => regex.test(district.districtName))) {
+    if (item.districtList && item.districtList.some((district) => regex.test(district.districtName))) {
       results.push(item)
     }
   })
@@ -185,7 +193,7 @@ function getProvinces(search, limit = 10) {
   const results = []
 
   data.forEach((item) => {
-    if (item?.provinceList?.some((province) => regex.test(province.provinceName))) {
+    if (item.provinceList && item.provinceList.some((province) => regex.test(province.provinceName))) {
       results.push(item)
     }
   })
@@ -211,6 +219,8 @@ function getZipCodes(search, limit = 10) {
 
   return [...new Set(cleaned.map((c) => c.zipCode))].slice(0, limit)
 }
+
+console.log('zip', getZipCodes('20110'))
 
 module.exports = {
   getAllData: () => data,
