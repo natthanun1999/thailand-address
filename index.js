@@ -220,8 +220,6 @@ function getZipCodes(search, limit = 10) {
   return [...new Set(cleaned.map((c) => c.zipCode))].slice(0, limit)
 }
 
-console.log('zip', getZipCodes('20110'))
-
 module.exports = {
   getAllData: () => data,
   getAutoSuggestion,
