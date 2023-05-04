@@ -156,6 +156,55 @@ function getAutoSuggestion(search, limit = 10) {
   return cleaned
 }
 
+function getRelateAddress(search, from, limit = 10) {
+  const searchRegex = new RegExp(search.value, 'i')
+  const fromRegex = new RegExp(from.value, 'i')
+  const fromData = data.filter((item) => {
+    return (
+      (from.field === 'zipCode' && fromRegex.test(item.zipCode))
+      || (from.field === 'subDistrict' && item.subDistrictList && item.subDistrictList.some((subDistrict) => fromRegex.test(subDistrict.subDistrictName)))
+      || (from.field === 'district' && item.districtList && item.districtList.some((district) => fromRegex.test(district.districtName)))
+      || (from.field === 'province' && item.provinceList && item.provinceList.some((province) => fromRegex.test(province.provinceName)))
+    )
+  })
+
+  const results = fromData.filter((item) => {
+    return (
+      (search.field === 'zipCode' && searchRegex.test(item.zipCode))
+      || (search.field === 'subDistrict' && item.subDistrictList && item.subDistrictList.some((subDistrict) => searchRegex.test(subDistrict.subDistrictName)))
+      || (search.field === 'district' && item.districtList && item.districtList.some((district) => searchRegex.test(district.districtName)))
+      || (search.field === 'province' && item.provinceList && item.provinceList.some((province) => searchRegex.test(province.provinceName)))
+    )
+  })
+
+  const remapped = toAddress(results)
+  const cleaned = remapped.filter((r) => (
+      (search.field === 'zipCode' && searchRegex.test(r.zipCode))
+      || (search.field === 'subDistrict' && searchRegex.test(r.subDistrict))
+      || (search.field === 'district' && searchRegex.test(r.district))
+      || (search.field === 'province' && searchRegex.test(r.province))
+    )).slice(0, limit)
+
+  cleaned.sort((a, b) => {
+		let aSimilarity = calculateSimilarity(search.value, a)
+		let bSimilarity = calculateSimilarity(search.value, b)
+
+		return aSimilarity - bSimilarity
+	})
+
+  if (search.field === 'zipCode') {
+    return [...new Set(cleaned.map((c) => c.zipCode))].slice(0, limit)
+  } else if (search.field === 'subDistrict') {
+    return [...new Set(cleaned.map((c) => c.subDistrict))].slice(0, limit)
+  } else if (search.field === 'district') {
+    return [...new Set(cleaned.map((c) => c.district))].slice(0, limit)
+  } else if (search.field === 'province') {
+    return [...new Set(cleaned.map((c) => c.province))].slice(0, limit)
+  }
+
+  return cleaned
+}
+
 function getSubDistricts(search, limit = 10) {
   const regex = new RegExp(search, 'i')
   const results = []
@@ -226,5 +275,6 @@ module.exports = {
   getSubDistricts,
   getDistricts,
   getProvinces,
-  getZipCodes
+  getZipCodes,
+  getRelateAddress
 }
