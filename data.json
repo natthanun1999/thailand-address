@@ -956,6 +956,12 @@
         "districtId": "38",
         "provinceId": "1",
         "subDistrictName": "จรเข้บัว"
+      },
+      {
+        "subDistrictId": "102701",
+        "districtId": "27",
+        "provinceId": "1",
+        "subDistrictName": "คลองกุ่ม"
       }
     ],
     "districtList": [
@@ -968,6 +974,11 @@
         "districtId": "43",
         "proviceId": "1",
         "districtName": "คันนายาว"
+      },
+      {
+        "districtId": "27",
+        "proviceId": "1",
+        "districtName": "บึงกุ่ม"
       }
     ],
     "provinceList": [
