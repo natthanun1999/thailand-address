@@ -934,6 +934,12 @@
     "zipCode": "10230",
     "subDistrictList": [
       {
+        "subDistrictId": "102704",
+        "districtId": "27",
+        "provinceId": "1",
+        "subDistrictName": "นวมินทร์"
+      },
+      {
         "subDistrictId": "104301",
         "districtId": "43",
         "provinceId": "1",
