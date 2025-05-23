@@ -8066,6 +8066,12 @@
     "zipCode": "20000",
     "subDistrictList": [
       {
+        "subDistrictId": "200116",
+        "districtId": "136",
+        "provinceId": "11",
+        "subDistrictName": "เสม็ด"
+      },
+      {
         "subDistrictId": "200109",
         "districtId": "136",
         "provinceId": "11",
@@ -8173,12 +8179,6 @@
   {
     "zipCode": "20130",
     "subDistrictList": [
-      {
-        "subDistrictId": "200116",
-        "districtId": "136",
-        "provinceId": "11",
-        "subDistrictName": "เสม็ด"
-      },
       {
         "subDistrictId": "200113",
         "districtId": "136",
