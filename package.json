@@ -4,7 +4,8 @@
   "description": "Private Thailand Address. Required node version 16 or later.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "patch": "npm version patch && git add package.json && git commit -m \"Update patch version\" && git push"
   },
   "repository": {
     "type": "git",
