@@ -1,6 +1,6 @@
 {
   "name": "private-thailand-address",
-  "version": "1.0.12",
+  "version": "1.0.13",
   "description": "Private Thailand Address. Required node version 16 or later.",
   "main": "index.js",
   "scripts": {
