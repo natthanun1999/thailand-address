@@ -1837,7 +1837,30 @@
         "districtId": "1103",
         "provinceId": "2",
         "subDistrictName": "หนองปรือ"
+      }
+    ],
+    "districtList": [
+      {
+        "districtId": "1103",
+        "proviceId": "2",
+        "districtName": "บางพลี"
       },
+      {
+        "districtId": "1106",
+        "proviceId": "2",
+        "districtName": "บางเสาธง"
+      }
+    ],
+    "provinceList": [
+      {
+        "provinceId": "2",
+        "provinceName": "สมุทรปราการ"
+      }
+    ]
+  },
+  {
+    "zipCode": "10570",
+    "subDistrictList": [
       {
         "subDistrictId": "110601",
         "districtId": "1106",
@@ -1858,11 +1881,6 @@
       }
     ],
     "districtList": [
-      {
-        "districtId": "1103",
-        "proviceId": "2",
-        "districtName": "บางพลี"
-      },
       {
         "districtId": "1106",
         "proviceId": "2",
@@ -55128,6 +55146,30 @@
         "provinceId": "65",
         "subDistrictName": "ลำภี"
       },
+      {
+        "subDistrictId": "820806",
+        "districtId": "8208",
+        "provinceId": "65",
+        "subDistrictName": "ลำแก่น"
+      }
+    ],
+    "districtList": [
+      {
+        "districtId": "8208",
+        "proviceId": "65",
+        "districtName": "ท้ายเหมือง"
+      }
+    ],
+    "provinceList": [
+      {
+        "provinceId": "65",
+        "provinceName": "พังงา"
+      }
+    ]
+  },
+  {
+    "zipCode": "82210",
+    "subDistrictList": [
       {
         "subDistrictId": "820806",
         "districtId": "8208",
