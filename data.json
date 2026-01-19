@@ -1580,9 +1580,20 @@
         "districtId": "1043",
         "provinceId": "1",
         "subDistrictName": "คันนายาว"
+      },
+      {
+        "subDistrictId": "104302",
+        "districtId": "1027",
+        "provinceId": "1",
+        "subDistrictName": "นวลจันทร์"
       }
     ],
     "districtList": [
+      {
+        "districtId": "1027",
+        "proviceId": "1",
+        "districtName": "เขตบึงกุ่ม"
+      },
       {
         "districtId": "1038",
         "proviceId": "1",
