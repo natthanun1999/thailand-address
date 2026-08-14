@@ -1421,6 +1421,12 @@
         "districtId": "1034",
         "provinceId": "1",
         "subDistrictName": "สวนหลวง"
+      },
+      {
+        "subDistrictId": "104402",
+        "districtId": "1044",
+        "provinceId": "1",
+        "subDistrictName": "ทับช้าง"
       }
     ],
     "districtList": [
@@ -1433,6 +1439,11 @@
         "districtId": "1034",
         "proviceId": "1",
         "districtName": "เขตสวนหลวง"
+      },
+      {
+        "districtId": "1044",
+        "proviceId": "1",
+        "districtName": "เขตสะพานสูง"
       }
     ],
     "provinceList": [
