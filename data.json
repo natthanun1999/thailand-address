@@ -495,6 +495,12 @@
         "districtId": "1047",
         "provinceId": "1",
         "subDistrictName": "บางนา"
+      },
+      {
+        "subDistrictId": "103303",
+        "districtId": "1033",
+        "provinceId": "1",
+        "subDistrictName": "พระโขนง"
       }
     ],
     "districtList": [
@@ -507,6 +513,11 @@
         "districtId": "1047",
         "proviceId": "1",
         "districtName": "เขตบางนา"
+      },
+      {
+        "districtId": "1033",
+        "proviceId": "1",
+        "districtName": "เขตคลองเตย"
       }
     ],
     "provinceList": [
@@ -749,6 +760,18 @@
         "districtId": "1037",
         "provinceId": "1",
         "subDistrictName": "มักกะสัน"
+      },
+      {
+        "subDistrictId": "101402",
+        "districtId": "1014",
+        "provinceId": "1",
+        "subDistrictName": "พญาไท"
+      },
+      {
+        "subDistrictId": "102602",
+        "districtId": "1026",
+        "provinceId": "1",
+        "subDistrictName": "รัชดาภิเษก"
       }
     ],
     "districtList": [
