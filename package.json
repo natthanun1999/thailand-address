@@ -3,9 +3,13 @@
   "version": "1.0.19",
   "description": "Private Thailand Address. Required node version 16 or later.",
   "main": "index.js",
+  "files": [
+    "index.js",
+    "data.json"
+  ],
   "scripts": {
     "test": "node tools/test-roundtrip.js",
-    "admin": "node tools/serve.js",
+    "dev": "node tools/serve.js",
     "patch": "npm version patch && git add package.json && git commit -m \"Update patch version\" && git push"
   },
   "repository": {
